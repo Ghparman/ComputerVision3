@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Banana SSD Report</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    :root{
+      --bg:#fafafa; --card:#ffffff; --muted:#6b7280; --accent:#0ea5a4;
+      --pad:18px; --maxw:1100px;
+    }
+    html,body{height:100%; margin:0; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    body{background:var(--bg); color:#111; display:flex; justify-content:center; padding:28px;}
+    .container{width:100%; max-width:var(--maxw);}
+    header{display:flex; gap:16px; align-items:center; margin-bottom:18px;}
+    header h1{margin:0; font-size:1.6rem;}
+    header p{margin:0; color:var(--muted);}
+    .card{background:var(--card); border-radius:10px; padding:var(--pad); box-shadow:0 6px 18px rgba(12,20,30,0.06); margin-bottom:18px;}
+    .row{display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap;}
+    .col{flex:1 1 320px; min-width:280px;}
+    .figure{background:#fff;border-radius:8px;padding:10px; text-align:center; border:1px solid #efefef;}
+    .figure img{max-width:100%; border-radius:6px; cursor:pointer; display:block; margin:0 auto; height:auto;}
+    .caption{font-size:0.95rem; color:var(--muted); margin-top:8px;}
+    .figure h4{margin:6px 0 2px 0; font-size:1rem;}
+    .section-title{display:flex; justify-content:space-between; align-items:center;}
+    .notes{margin-top:10px; color:#222; line-height:1.45;}
+    .samples-grid{display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;}
+    .sample-block{border-radius:8px; padding:10px; background:#fff; border:1px solid #efefef;}
+    .meta{font-size:0.85rem; color:var(--muted);}
+    /* lightbox */
+    #lightbox{position:fixed; inset:0; background:rgba(0,0,0,0.75); display:none; align-items:center; justify-content:center; z-index:9999;}
+    #lightbox img{max-width:94%; max-height:92%; border-radius:6px; box-shadow:0 10px 40px rgba(0,0,0,0.6);}
+    #closeBtn{position:absolute; top:18px; right:18px; color:#fff; font-size:20px; cursor:pointer;}
+    /* print-friendly */
+    @media print {
+      body{background:white}
+      header, .card{box-shadow:none; border:none}
+    }
+    /* responsive */
+    @media (max-width:720px){
+      .samples-grid{grid-template-columns: 1fr;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Banana SSD — Detection Report</h1>
+        <p>Overview of training curves, sample detections and Non-Maximum Suppression (NMS) behavior.</p>
+      </div>
+      <div style="margin-left:auto; text-align:right;">
+        <small class="meta">Author: <strong>Your name</strong><br>Model: Simple SSD-style detector — Custom NMS vs torchvision.ops.nms</small>
+      </div>
+    </header>
+
+    <!-- Training Losses -->
+    <section class="card" id="losses">
+      <div class="section-title">
+        <h2 style="margin:0">Training Losses</h2>
+        <small class="meta">Epochs: (your training run)</small>
+      </div>
+      <div class="row" style="margin-top:12px;">
+        <div class="col figure">
+          <h4>Classification Loss</h4>
+          <img src="images/loss_class.png" alt="classification loss" data-caption="Classification loss over epochs">
+          <div class="caption">Plot of classification loss vs epoch. Discuss here what the curve shows (overfitting, convergence, etc.).</div>
+        </div>
+        <div class="col figure">
+          <h4>Bounding Box Regression Loss</h4>
+          <img src="images/loss_bbox.png" alt="bbox loss" data-caption="Bounding box loss over epochs">
+          <div class="caption">Plot of bbox regression loss vs epoch. Note relative scale compared to classification loss and any anomalies.</div>
+        </div>
+      </div>
+
+      <div class="notes card" style="margin-top:12px;">
+        <h3 style="margin-top:0;">Discussion — Training behavior</h3>
+        <p>Write a short commentary here (2–6 sentences). Example prompts:
+          <ul>
+            <li>Did classification loss and bbox loss converge? Which one dominates the final training objective?</li>
+            <li>Did you use learning rate schedule, weight decay, or data augmentation that influenced the curves?</li>
+            <li>Any experiments that reduced/increased losses and why?</li>
+          </ul>
+        </p>
+      </div>
+    </section>
+
+    <!-- Sample detections -->
+    <section class="card" id="samples">
+      <div class="section-title">
+        <h2 style="margin:0">Sample Detections (5)</h2>
+        <small class="meta">For each sample: raw detections, after custom NMS, after torchvision.ops.nms</small>
+      </div>
+
+      <div style="margin-top:12px;">
+        <!-- Repeat this block for sample0..sample4 -->
+        <!-- Sample 0 -->
+        <div class="sample-block" style="margin-bottom:12px;">
+          <h3 style="margin:6px 0;">Sample 0</h3>
+          <div class="samples-grid">
+            <div class="figure">
+              <h4>Raw Detections (conf thresh)</h4>
+              <img src="images/sample0_before.png" alt="sample0-before" data-caption="Raw detections for sample 0">
+              <div class="caption">Raw proposals (before NMS). Discuss number of proposals, false positives, confidence threshold used.</div>
+            </div>
+            <div class="figure">
+              <h4>After Custom NMS</h4>
+              <img src="images/sample0_after_custom.png" alt="sample0-after-custom" data-caption="After custom NMS">
+              <div class="caption">Result after your custom greedy NMS. Discuss removed boxes and any observed differences from torchvision NMS.</div>
+            </div>
+            <div class="figure">
+              <h4>After torchvision.ops.nms</h4>
+              <img src="images/sample0_after_torch.png" alt="sample0-after-torch" data-caption="After torchvision NMS">
+              <div class="caption">Result after PyTorch NMS. Note differences in kept indices (if any) and possible reasons.</div>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <strong>Discussion:</strong>
+            <p class="notes">Replace this with your observed notes for this sample. Example: "Custom NMS removed 5 overlapping boxes while torchvision kept 4 — difference stems from inclusive/exclusive IoU thresholding and tie-breaking order."</p>
+          </div>
+        </div>
+
+        <!-- Sample 1 -->
+        <div class="sample-block" style="margin-bottom:12px;">
+          <h3 style="margin:6px 0;">Sample 1</h3>
+          <div class="samples-grid">
+            <div class="figure"><h4>Raw Detections</h4><img src="images/sample1_before.png" alt="sample1-before"><div class="caption">Raw detections</div></div>
+            <div class="figure"><h4>After Custom NMS</h4><img src="images/sample1_after_custom.png" alt="sample1-after-custom"><div class="caption">Custom NMS</div></div>
+            <div class="figure"><h4>After torchvision.ops.nms</h4><img src="images/sample1_after_torch.png" alt="sample1-after-torch"><div class="caption">Torch NMS</div></div>
+          </div>
+          <div style="margin-top:10px;"><strong>Discussion:</strong><p class="notes">Observations for sample 1...</p></div>
+        </div>
+
+        <!-- Sample 2 -->
+        <div class="sample-block" style="margin-bottom:12px;">
+          <h3 style="margin:6px 0;">Sample 2</h3>
+          <div class="samples-grid">
+            <div class="figure"><h4>Raw Detections</h4><img src="images/sample2_before.png" alt="sample2-before"><div class="caption">Raw detections</div></div>
+            <div class="figure"><h4>After Custom NMS</h4><img src="images/sample2_after_custom.png" alt="sample2-after-custom"><div class="caption">Custom NMS</div></div>
+            <div class="figure"><h4>After torchvision.ops.nms</h4><img src="images/sample2_after_torch.png" alt="sample2-after-torch"><div class="caption">Torch NMS</div></div>
+          </div>
+          <div style="margin-top:10px;"><strong>Discussion:</strong><p class="notes">Observations for sample 2...</p></div>
+        </div>
+
+        <!-- Sample 3 -->
+        <div class="sample-block" style="margin-bottom:12px;">
+          <h3 style="margin:6px 0;">Sample 3</h3>
+          <div class="samples-grid">
+            <div class="figure"><h4>Raw Detections</h4><img src="images/sample3_before.png" alt="sample3-before"><div class="caption">Raw detections</div></div>
+            <div class="figure"><h4>After Custom NMS</h4><img src="images/sample3_after_custom.png" alt="sample3-after-custom"><div class="caption">Custom NMS</div></div>
+            <div class="figure"><h4>After torchvision.ops.nms</h4><img src="images/sample3_after_torch.png" alt="sample3-after-torch"><div class="caption">Torch NMS</div></div>
+          </div>
+          <div style="margin-top:10px;"><strong>Discussion:</strong><p class="notes">Observations for sample 3...</p></div>
+        </div>
+
+        <!-- Sample 4 -->
+        <div class="sample-block" style="margin-bottom:12px;">
+          <h3 style="margin:6px 0;">Sample 4</h3>
+          <div class="samples-grid">
+            <div class="figure"><h4>Raw Detections</h4><img src="images/sample4_before.png" alt="sample4-before"><div class="caption">Raw detections</div></div>
+            <div class="figure"><h4>After Custom NMS</h4><img src="images/sample4_after_custom.png" alt="sample4-after-custom"><div class="caption">Custom NMS</div></div>
+            <div class="figure"><h4>After torchvision.ops.nms</h4><img src="images/sample4_after_torch.png" alt="sample4-after-torch"><div class="caption">Torch NMS</div></div>
+          </div>
+          <div style="margin-top:10px;"><strong>Discussion:</strong><p class="notes">Observations for sample 4...</p></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Closing / Repro -->
+    <section class="card">
+      <h2 style="margin:0 0 8px 0">Notes & Repro</h2>
+      <p class="notes">
+        <strong>Repro steps:</strong> include your training command, environment (PyTorch, torchvision versions), GPU used, and any hyperparameters (batch size, lr, epochs, anchor config).
+      </p>
+      <p class="notes">
+        <strong>Comparison notes:</strong> when you compare custom NMS vs torchvision.ops.nms, include:
+        <ul>
+          <li>Exact kept indices per image (print them in your notebook and insert results here)</li>
+          <li>IoU threshold used, tie-breaking strategy (our custom greedy NMS picks highest-score anchor first)</li>
+          <li>Potential sources of differences: rounding/float precision, bbox coordinate format (xyxy vs cxcywh), inclusive/exclusive comparisons</li>
+        </ul>
+      </p>
+    </section>
+
+    <footer style="margin-top:18px; text-align:center; color:var(--muted);">
+      <small>Generated report — edit text blocks above to add your full analysis.</small>
+    </footer>
+  </div>
+
+  <!-- lightbox -->
+  <div id="lightbox" onclick="hideLightbox()">
+    <span id="closeBtn" onclick="hideLightbox()">✕</span>
+    <img id="lightbox-img" src="">
+  </div>
+
+  <script>
+    // click-to-enlarge for images
+    document.querySelectorAll('.figure img').forEach(img=>{
+      img.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const src = img.getAttribute('src');
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox').style.display = 'flex';
+      });
+    });
+    function hideLightbox(){
+      document.getElementById('lightbox').style.display = 'none';
+    }
+    // prevent click propagation on the lightbox image
+    document.getElementById('lightbox-img').addEventListener('click', (e)=>e.stopPropagation());
+  </script>
+</body>
+</html>
