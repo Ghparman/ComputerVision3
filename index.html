@@ -157,7 +157,207 @@
       </div>
     </section>
 
+  <!-- Part 3 — Human–Object Interaction -->
+<section class="card">
+  <h2 style="margin:0 0 12px 0;">Part 3: Human–Object Interaction</h2>
 
+  <!-- Preamble -->
+  <p class="notes" style="margin-bottom:18px;">
+    In this section I used GPT-5 to predict human object interactions. Before giving it any images it was prompted as follows, "I am going to upload 3 images for you. I want you to describe all of the human object interactions possible for the 3 images. Answer in the form of doublets that include <interaction>,<interaction object> for example if there is an apple you may say hold,apple and eat,apple"
+    For each image below the caption is the returned HOI's from the model.  
+  </p>
+
+  <!-- HOI Example 1 -->
+  <div class="figure" style="margin-bottom:24px;">
+    <h3 style="margin:6px 0;">Example 1</h3>
+    <img src="images/family.jpg" alt="HOI Example 1" style="max-width:100%; border-radius:8px;">
+    
+    <div class="caption" style="margin-top:8px; font-weight:600;">Model Output:</div>
+    <pre class="notes" style="
+      background:#f3f3f3; 
+      padding:12px; 
+      border-radius:8px; 
+      overflow-x:auto;
+    ">
+Human–Object Interaction Doublets
+
+Man in front (reaching toward cake):
+
+reach, cake
+
+touch, cake
+
+cut (implied), cake
+
+hold, birthday-cake utensil (if his hand is on one)
+
+look, cake
+
+look, table items
+
+lean toward, cake table
+
+Child on left (looking toward center):
+
+look, cake
+
+look, table items
+
+look, small clown figurine
+
+sit, chair (implied)
+
+rest hands on, table
+
+Middle child (blonde curls, in front):
+
+look, cake
+
+look, clown figurine
+
+rest hands on, table
+
+sit, chair (implied)
+
+Child on right (smallest):
+
+look, table items
+
+look, cake
+
+rest arms on, table
+
+sit, chair (implied)
+
+Teen older child in back:
+
+look, cake
+
+look, figurine
+
+lean toward, table
+
+General objects in scene being interacted with:
+
+Cake
+
+Table
+
+Clown figurine
+
+Framed picture on the table
+
+Plates utensils (implied but not clearly touched)
+    </pre>
+  </div>
+
+  <!-- HOI Example 2 -->
+  <div class="figure" style="margin-bottom:24px;">
+    <h3 style="margin:6px 0;">Example 2</h3>
+    <img src="images/horse.jpg" alt="HOI Example 2" style="max-width:100%; border-radius:8px;">
+    
+    <div class="caption" style="margin-top:8px; font-weight:600;">Model Output:</div>
+    <pre class="notes" style="
+      background:#f3f3f3;
+      padding:12px; 
+      border-radius:8px; 
+      overflow-x:auto;
+    ">
+Human–Object Interaction Doublets (Image 2)
+
+Rider:
+
+ride, horse
+
+sit on, horse
+
+hold, reins
+
+pull, reins (slight tension visible)
+
+wear, hat
+
+wear, boots
+
+wear, vest
+
+wear, jeans
+
+look, road ahead
+
+control, horse
+
+balance on, saddle
+
+rest feet in, stirrups
+
+Horse (as an object for interactions):
+
+lead, horse
+
+guide, horse
+
+Environment interactions (human → objects):
+
+move through, underpass bridge
+
+travel on, road
+    </pre>
+  </div>
+
+  <!-- HOI Example 3 -->
+  <div class="figure" style="margin-bottom:24px;">
+    <h3 style="margin:6px 0;">Example 3</h3>
+    <img src="images/baby.jpg" alt="HOI Example 3" style="max-width:100%; border-radius:8px;">
+    
+    <div class="caption" style="margin-top:8px; font-weight:600;">Model Output:</div>
+    <pre class="notes" style="
+      background:#f3f3f3; 
+      padding:12px; 
+      border-radius:8px; 
+      overflow-x:auto;
+    ">
+Human–Object Interaction Doublets (Image 3)
+
+Baby:
+
+hold, bottle
+
+grip, bottle
+
+drink from, bottle
+
+touch, bottle nipple
+
+lean toward, bottle
+
+rest hand on, bottle
+
+wear, clothing
+
+Adult hand (feeding the baby):
+
+hold, bottle
+
+support, bottle
+
+guide, bottle
+
+Bottle (object):
+
+press, bottle nipple (by mouth)
+
+tilt, bottle (by adult hand and baby position)
+    </pre>
+  </div>
+
+</section>
+<section class="card">
+  <h2 style="margin:0 0 8px 0">Closing Thoughts</h2>
+  <p class="notes">
+    The model is incredibly good at finding the HOI's in these images. while they are not super hard, the family image shows a robustness from the model that surprised me. These are just the most interesting 3 to me, but I tried other images and could not get a real "failure" case.
+  </p>
+</section>
   <!-- lightbox -->
   <div id="lightbox" onclick="hideLightbox()">
     <span id="closeBtn" onclick="hideLightbox()">✕</span>
